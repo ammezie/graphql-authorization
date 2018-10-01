@@ -13,6 +13,10 @@ const resolvers = {
       }
 
       return await User.findById(user.id)
+    },
+
+    async allUsers (root, args, { user }) {
+      return await User.all()
     }
   },
 

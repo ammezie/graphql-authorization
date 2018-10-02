@@ -9,14 +9,23 @@ const typeDefs = gql`
     email: String!
   }
 
+  type Post {
+    id: Int!
+    user: User!
+    title: String!
+    content: String!
+  }
+
   type Query {
-    me: User
-    allUsers: [User]
+    allUsers: [User]!
+    post(id: Int!): Post
   }
 
   type Mutation {
-    signup (username: String!, email: String!, password: String!): User
-    login (email: String!, password: String!): String
+    signup(username: String!, email: String!, password: String!): String
+    login(email: String!, password: String!): String
+    createPost(title: String!, content: String!): Post
+    editPost(id: Int!, title: String, content: String): Post
   }
 `
 

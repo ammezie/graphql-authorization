@@ -1,22 +1,18 @@
 'use strict'
 
-const { User } = require('./models')
+const { User, Post } = require('./models')
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
 require('dotenv').config()
 
 const resolvers = {
   Query: {
-    async me (root, args, { user }) {
-      if (!user) {
-        throw new Error('You are not authenticated!')
-      }
-
-      return await User.findById(user.id)
+    async allUsers (root, args, { user }) {
+      return User.all()
     },
 
-    async allUsers (root, args, { user }) {
-      return await User.all()
+    async post (root, { id }, { user }) {
+      return Post.findById(id)
     }
   },
 
@@ -53,6 +49,44 @@ const resolvers = {
         process.env.JWT_SECRET,
         { expiresIn: '1y' }
       )
+    },
+
+    async createPost (root, { title, content }, { user }) {
+      if (!user) {
+        throw new Error('You are not authenticated!')
+      }
+
+      return Post.create({
+        user_id: user.id,
+        title,
+        content
+      })
+    },
+
+    async editPost (root, { id, title, content }, { user }) {
+      if (!user) {
+        throw new Error('You are not authenticated!')
+      }
+
+      const post = await Post.findById(id)
+
+      if (!post) {
+        throw new Error('No post found')
+      }
+
+      if (user.id !== post.user_id) {
+        throw new Error('You can only edit the posts you created!')
+      }
+
+      await post.update({ title, content })
+
+      return post
+    }
+  },
+
+  Post: {
+    async user (post) {
+      return User.findById(post.user_id)
     }
   }
 }

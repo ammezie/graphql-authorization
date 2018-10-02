@@ -5,10 +5,6 @@ require('dotenv').config()
 
 const resolvers = {
   Query: {
-    async allUsers (root, args, { user }) {
-      return User.all()
-    },
-
     async post (root, { id }, { user }) {
       return Post.findById(id)
     }
@@ -68,26 +64,6 @@ const resolvers = {
         title,
         content
       })
-    },
-
-    async editPost (root, { id, title, content }, { user }) {
-      if (!user) {
-        throw new Error('You are not authenticated!')
-      }
-
-      const post = await Post.findById(id)
-
-      if (!post) {
-        throw new Error('No post found')
-      }
-
-      if (user.id !== post.user_id) {
-        throw new Error('You can only edit the posts you created!')
-      }
-
-      await post.update({ title, content })
-
-      return post
     }
   },
 

@@ -8,6 +8,14 @@ require('dotenv').config()
 const resolvers = {
   Query: {
     async allUsers (root, args, { user }) {
+      if (!user) {
+        throw new Error('You are not authenticated!')
+      }
+
+      if (!user.is_admin) {
+        throw new Error('This is above your pay grade!')
+      }
+
       return User.all()
     },
 
@@ -21,11 +29,16 @@ const resolvers = {
       const user = await User.create({
         username,
         email,
-        password: await bcrypt.hash(password, 10)
+        password: await bcrypt.hash(password, 10),
+        is_admin: 0
       })
 
       return jsonwebtoken.sign(
-        { id: user.id, email: user.email },
+        {
+          id: user.id,
+          email: user.email,
+          is_admin: user.is_admin
+        },
         process.env.JWT_SECRET,
         { expiresIn: '1y' }
       )
@@ -45,7 +58,11 @@ const resolvers = {
       }
 
       return jsonwebtoken.sign(
-        { id: user.id, email: user.email },
+        {
+          id: user.id,
+          email: user.email,
+          is_admin: user.is_admin
+        },
         process.env.JWT_SECRET,
         { expiresIn: '1y' }
       )

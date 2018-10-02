@@ -7,6 +7,7 @@ const typeDefs = gql`
     id: Int!
     username: String!
     email: String!
+    isAdmin: Boolean!
   }
 
   type Post {

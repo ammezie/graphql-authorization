@@ -1,6 +1,4 @@
-'use strict'
-
-const { User, Post } = require('./models')
+const { User, Post } = require('../models')
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
 require('dotenv').config()
@@ -8,14 +6,6 @@ require('dotenv').config()
 const resolvers = {
   Query: {
     async allUsers (root, args, { user }) {
-      if (!user) {
-        throw new Error('You are not authenticated!')
-      }
-
-      if (!user.is_admin) {
-        throw new Error('This is above your pay grade!')
-      }
-
       return User.all()
     },
 
@@ -102,7 +92,7 @@ const resolvers = {
   },
 
   Post: {
-    async user (post) {
+    async author (post) {
       return User.findById(post.user_id)
     }
   }

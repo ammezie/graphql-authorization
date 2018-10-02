@@ -2,8 +2,9 @@ const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
 const jwt = require('express-jwt')
 require('dotenv').config()
-const typeDefs = require('./schema')
+const typeDefs = require('./schemas')
 const resolvers = require('./resolvers')
+const IsAdminDirective = require('./directives/isAdmin')
 
 const port = 4000
 const path = '/api'
@@ -20,6 +21,9 @@ app.use(
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  schemaDirectives: {
+    isAdmin: IsAdminDirective
+  },
   context: ({ req }) => ({
     user: req.user
   })

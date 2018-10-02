@@ -1,8 +1,8 @@
-'use strict'
-
 const { gql } = require('apollo-server-express')
 
 const typeDefs = gql`
+  directive @isAdmin on FIELD_DEFINITION
+
   type User {
     id: Int!
     username: String!
@@ -12,13 +12,13 @@ const typeDefs = gql`
 
   type Post {
     id: Int!
-    user: User!
     title: String!
     content: String!
+    author: User!
   }
 
   type Query {
-    allUsers: [User]!
+    allUsers: [User]! @isAdmin
     post(id: Int!): Post
   }
 

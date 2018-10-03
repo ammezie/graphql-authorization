@@ -1,5 +1,5 @@
 const { User, Post } = require('../models')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jsonwebtoken = require('jsonwebtoken')
 require('dotenv').config()
 

@@ -17,10 +17,11 @@
     "express-jwt": "^5.3.1",
     "graphql": "^14.0.2",
     "jsonwebtoken": "^8.3.0",
-    "mysql2": "^1.6.1",
-    "sequelize": "^4.39.0"
+    "sequelize": "^4.39.0",
+    "sqlite3": "^4.0.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "sequelize-cli": "^4.1.1"
   }
 }

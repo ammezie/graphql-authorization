@@ -1,7 +1,5 @@
 'use strict'
 
-require('dotenv').config()
-
 const dbDetails = {
   dialect: 'sqlite',
   storage: './database.sqlite3'

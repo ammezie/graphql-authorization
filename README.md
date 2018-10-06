@@ -1,6 +1,6 @@
 # graphql-authorization
 
-Handling authorization in GraphQL
+Handling authorization in GraphQL - [https://pusher.com/tutorials/authorization-graphql](https://pusher.com/tutorials/authorization-graphql)
 
 ## Getting Started
 
